@@ -11,14 +11,11 @@ import javax.ws.rs.QueryParam;
 import org.nuxeo.bulkread.service.BRService;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.WebEngine;
-import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 import org.nuxeo.runtime.api.Framework;
 
-@WebObject(type = "rooms")
 @Produces("text/html;charset=UTF-8")
-@Path("/rooms")
-public class Api extends ModuleRoot {
+@Path("bulkread")
+public class Api {
 
     protected static class Result {
 
@@ -26,7 +23,7 @@ public class Api extends ModuleRoot {
 
         String message;
 
-        Integer nbEntries;
+        Long nbEntries;
 
         Result() {
             t0 = System.currentTimeMillis();
@@ -92,21 +89,27 @@ public class Api extends ModuleRoot {
     @GET
     @Path("export/{name}")
     @Produces("text/plain")
-    public String export(@PathParam(value = "name") String name) throws Exception {
-        return doExport(name);
+    public String export(@PathParam(value = "name") String name, @QueryParam(value = "pp") String pp) throws Exception {
+        return doExport(name, pp);
     }
 
     @POST
     @Path("export/{name}")
     @Produces("text/plain")
-    public String doExport(@PathParam(value = "name") String name) throws Exception {
+    public String doExport(@PathParam(value = "name") String name, @QueryParam(value = "pp") String pp) throws Exception {
 
         Result res = new Result();
 
-        BRService rm = Framework.getService(BRService.class);
-        File zip = rm.exportBigFolder(name, WebEngine.getActiveContext().getCoreSession(), "");
+        if (pp==null) {
+            pp = "export_fullES";
+        }
 
-        res.message = "Room " + name + " exported as " + zip.getAbsolutePath() + (zip.length() / 1024) + "KB";
+        BRService rm = Framework.getService(BRService.class);
+        File zip = rm.exportBigFolder(name, WebEngine.getActiveContext().getCoreSession(), pp);
+
+        res.nbEntries = rm.getFolderSize(name, WebEngine.getActiveContext().getCoreSession());
+
+        res.message = "Folder " + name + " exported as " + zip.getAbsolutePath() + " via PageProvider " + pp ;
 
         return res.toString();
     }

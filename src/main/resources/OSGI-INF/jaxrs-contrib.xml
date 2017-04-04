@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.bulkread.jaxrs">
+
+  <extension target="org.nuxeo.ecm.webengine.WebEngineComponent" point="resource">
+
+    <resource path="bulkread"
+              class="org.nuxeo.bulkread.jaxrs.Api"/>
+  </extension>
+</component>

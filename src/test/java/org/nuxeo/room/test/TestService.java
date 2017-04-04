@@ -55,6 +55,8 @@ public class TestService {
     @Test
     public void shouldCreateFolder() throws Exception {
 
+        String ppName="export_fullES";
+
         String name="yo";
 
         DocumentModel folder = brs.createBigFolder(name, 100, session, 1);
@@ -72,7 +74,7 @@ public class TestService {
 
         System.out.println("CHILDREN=###" + children.size());
 
-        File export = brs.exportBigFolder(name, session, "getChildrenBR");
+        File export = brs.exportBigFolder(name, session, ppName);
 
         System.out.println(export.getAbsolutePath());
 

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.bulkread.io.PageProviderReader;
@@ -103,6 +104,18 @@ public class BRServiceComponent extends DefaultComponent implements BRService {
         return session.saveDocument(room);
     }
 
+    @Override
+    public long getFolderSize( String name, CoreSession session) throws Exception {
+
+        DocumentModel folder = session.getDocument(new org.nuxeo.ecm.core.api.PathRef("/" + name));
+
+        String sizeStr = (String) folder.getPropertyValue("dc:description");
+        if (StringUtils.isEmpty(sizeStr)) {
+            return -1;
+        } else {
+            return Long.parseLong(sizeStr);
+        }
+    }
 
     @Override
     public File exportBigFolder(String folderName, CoreSession session, String ppName) throws Exception {
@@ -117,7 +130,7 @@ public class BRServiceComponent extends DefaultComponent implements BRService {
         props.put(ElasticSearchNxqlPageProvider.CORE_SESSION_PROPERTY, (Serializable) session);
         long pageSize = 50;
 
-        PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) pps.getPageProvider("NATIVE_PP_PATTERN", ppdef, null, null, pageSize, (long) 0, props, folderName);
+        PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) pps.getPageProvider(ppName, ppdef, null, null, pageSize, (long) 0, props, folderName);
 
         DocumentReader reader = new PageProviderReader(session, pp);
         DocumentWriter writer = new NuxeoArchiveWriter(archive);

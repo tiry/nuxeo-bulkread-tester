@@ -5,7 +5,7 @@
   <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService"
     point="providers">
 
-    <genericPageProvider name="getChildrenBR"
+    <genericPageProvider name="export_fullES"
       class="org.nuxeo.bulkread.es.BulkESPageProvider">
       <property name="loadBlobsFromES">true</property>     
       <pattern quoteParameters="false" escapeParameters="true">
@@ -14,8 +14,41 @@
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
         'deleted'
       </pattern>
-      <pageSize>10</pageSize>
+      <pageSize>50</pageSize>
     </genericPageProvider>
 
+    <genericPageProvider name="export_metadataES"
+      class="org.nuxeo.bulkread.es.BulkESPageProvider">
+      <property name="loadBlobsFromES">false</property>     
+      <pattern quoteParameters="false" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:path STARTSWITH '/?/' 
+        AND ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
+        'deleted'
+      </pattern>
+      <pageSize>50</pageSize>
+    </genericPageProvider>
+
+    <genericPageProvider name="export_simpleES"
+      class="org.nuxeo.elasticsearch.provider.ElasticSearchNxqlPageProvider">
+      <pattern quoteParameters="false" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:path STARTSWITH '/?/' 
+        AND ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
+        'deleted'
+      </pattern>
+      <pageSize>50</pageSize>
+    </genericPageProvider>
+        
+    <coreQueryPageProvider name="export_core">
+      <pattern quoteParameters="false" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:path STARTSWITH '/?/' 
+        AND ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
+        'deleted'
+      </pattern>
+      <pageSize>50</pageSize>
+    </coreQueryPageProvider>
+    
   </extension>
 </component>

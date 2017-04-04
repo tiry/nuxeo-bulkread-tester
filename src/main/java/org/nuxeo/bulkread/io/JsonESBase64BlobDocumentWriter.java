@@ -19,21 +19,18 @@ package org.nuxeo.bulkread.io;
 import java.io.IOException;
 import java.util.Collection;
 
-import javax.servlet.ServletRequest;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.JsonGenerator;
 import org.apache.commons.codec.binary.Base64;
+import org.codehaus.jackson.JsonGenerator;
 import org.nuxeo.ecm.automation.core.util.DateTimeFormat;
 import org.nuxeo.ecm.automation.core.util.JSONPropertyWriter;
 import org.nuxeo.ecm.automation.jaxrs.io.documents.JsonESDocumentWriter;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.Property;
-import org.nuxeo.ecm.core.io.download.DownloadService;
 import org.nuxeo.ecm.core.schema.SchemaManager;
-import org.nuxeo.ecm.platform.web.common.vh.VirtualHostHelper;
 import org.nuxeo.runtime.api.Framework;
 
 @Provider
@@ -51,12 +48,11 @@ public class JsonESBase64BlobDocumentWriter extends JsonESDocumentWriter {
             schemas = doc.getSchemas();
         }
         for (String schema : schemas) {
-            _writeProperties(jg, doc, schema, null);
+            _writeProperties(jg, doc, schema);
         }
     }
 
-    protected static void _writeProperties(JsonGenerator jg, DocumentModel doc, String schema, ServletRequest request)
-            throws IOException {
+    protected static void _writeProperties(JsonGenerator jg, DocumentModel doc, String schema) throws IOException {
         Collection<Property> properties = doc.getPropertyObjects(schema);
         if (properties.isEmpty()) {
             return;
@@ -70,11 +66,6 @@ public class JsonESBase64BlobDocumentWriter extends JsonESDocumentWriter {
         prefix = prefix + ":";
 
         String blobUrlPrefix = null;
-        if (request != null) {
-            DownloadService downloadService = Framework.getService(DownloadService.class);
-            blobUrlPrefix = VirtualHostHelper.getBaseURL(request) + downloadService.getDownloadUrl(doc, null, null)
-                    + "/";
-        }
 
         for (Property p : properties) {
             if (p.getType().getName().equals("content")) {

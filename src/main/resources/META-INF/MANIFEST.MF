@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: org.nuxeo.bulkread.tests
-Nuxeo-WebModule: org.nuxeo.bulkread.jaxrs.ApiModule;bulk=room;extends=admin;package=org/nuxeo/bulkread
+Bundle-SymbolicName: org.nuxeo.bulkread.tests;singleton=true
+Nuxeo-WebModule: org.nuxeo.bulkread.jaxrs.ApiModule
 Bundle-Name: org.nuxeo.bulkread.tests
 Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
@@ -8,5 +8,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: Nuxeo
 Nuxeo-Component: OSGI-INF/service-contrib.xml,
  OSGI-INF/pageproviders-contrib.xml,
- OSGI-INF/elasticsearch-mapping-contrib.xml
+ OSGI-INF/elasticsearch-mapping-contrib.xml,
+ OSGI-INF/jaxrs-contrib.xml
+
 

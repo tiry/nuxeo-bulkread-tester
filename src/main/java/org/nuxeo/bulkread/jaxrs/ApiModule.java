@@ -1,12 +1,17 @@
 package org.nuxeo.bulkread.jaxrs;
 
-import org.nuxeo.ecm.webengine.app.WebEngineModule;
+import java.util.HashSet;
+import java.util.Set;
 
-public class ApiModule extends WebEngineModule {
+import javax.ws.rs.core.Application;
+
+public class ApiModule extends Application {
 
     @Override
-    public Class<?>[] getWebTypes() {
-        return new Class<?>[] { Api.class };
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> set = new HashSet<>();
+        set.add(Api.class);
+        return set;
     }
 
 }
