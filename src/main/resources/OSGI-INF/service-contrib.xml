@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.bulkread.service.BRServiceComponent">
+
+  <service>
+    <provide interface="org.nuxeo.bulkread.service.BRService" />
+  </service>
+
+  <implementation class="org.nuxeo.bulkread.service.BRServiceComponent" />
+
+ <provide></provide>
+</component>

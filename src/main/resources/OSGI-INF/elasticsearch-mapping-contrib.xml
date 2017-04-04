@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.bulkread.es.mapping.contrib">
+
+  <require>org.nuxeo.elasticsearch.ElasticSearchComponent.contrib</require>
+  <extension target="org.nuxeo.elasticsearch.ElasticSearchComponent" point="elasticSearchDocWriter">
+   <writer class="org.nuxeo.bulkread.io.JsonESBase64BlobDocumentWriter" />
+  </extension>
+
+</component>

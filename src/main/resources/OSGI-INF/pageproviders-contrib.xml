@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<component name="org.nuxeo.bulkread.pageproviders.contrib">
+
+  <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService"
+    point="providers">
+
+    <genericPageProvider name="getChildrenBR"
+      class="org.nuxeo.bulkread.es.BulkESPageProvider">
+      <property name="loadBlobsFromES">true</property>     
+      <pattern quoteParameters="false" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:path STARTSWITH '/?/' 
+        AND ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
+        'deleted'
+      </pattern>
+      <pageSize>10</pageSize>
+    </genericPageProvider>
+
+  </extension>
+</component>
