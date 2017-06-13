@@ -14,6 +14,7 @@
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
         'deleted'
       </pattern>
+      <sort ascending="true" column="ecm:path"/>
       <pageSize>50</pageSize>
     </genericPageProvider>
 
@@ -26,6 +27,7 @@
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
         'deleted'
       </pattern>
+      <sort ascending="true" column="ecm:path"/>
       <pageSize>50</pageSize>
     </genericPageProvider>
 
@@ -37,6 +39,7 @@
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
         'deleted'
       </pattern>
+      <sort ascending="true" column="ecm:path"/>
       <pageSize>50</pageSize>
     </genericPageProvider>
         
@@ -47,6 +50,7 @@
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
         'deleted'
       </pattern>
+      <sort ascending="true" column="ecm:path"/>
       <pageSize>50</pageSize>
     </coreQueryPageProvider>
     
